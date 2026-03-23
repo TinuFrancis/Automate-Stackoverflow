@@ -1,40 +1,36 @@
 plugins {
     id 'java'
+    id 'application'
 }
-
-
-
-// Apply the java plugin to add support for Java
-apply plugin: 'java'
-apply plugin: 'application'
-
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+application {
+    mainClass = 'demo.App'
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    // JUnit 5
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
-   
-    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    testRuntimeOnly   'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+
+    // WebDriverManager - auto-downloads ChromeDriver
     implementation 'io.github.bonigarcia:webdrivermanager:5.5.3'
 
-    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    // Selenium Java
     implementation 'org.seleniumhq.selenium:selenium-java:4.14.0'
-
 }
 
-//task startScript(type:Exec) {
-//    commandLine './selenium-run.sh'
-//}
-
-//run.dependsOn startScript
-
-//test.dependsOn startScript
-
-mainClassName = 'demo.App'
+test {
+    useJUnitPlatform()
+}
